@@ -1,0 +1,61 @@
+---
+- name: Bad Apple
+  hosts: localhost
+  tasks:
+    - name: Install python packages
+      tags: prereq
+      ansible.builtin.include_role:
+        name: diademiemi.python.pip
+      vars:
+        python_pip_user_packages:
+          - user: "{{ ansible_user_id }}"
+            packages:
+              - name: yt-dlp
+              - name: Pillow
+
+    - name: Download Video
+      tags: download
+      ansible.builtin.command: yt-dlp -f bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio https://www.youtube.com/watch?v=FtutLA63Cp8 -o bad_apple.mp4
+      args:
+        creates: bad_apple.mp4
+
+    - name: Ensure frame directory exists
+      tags: frames
+      ansible.builtin.file:
+        path: frames
+        state: directory
+        mode: '0755'
+
+    - name: Extract Frames
+      tags: frames
+      ansible.builtin.command: ffmpeg -i bad_apple.mp4 -vf fps=20 frames/bad_apple_%02d.png
+      args:
+        creates: frames/bad_apple_01.png
+
+    - name: Get all frames
+      tags: frames
+      ansible.builtin.find:
+        paths: frames
+        patterns: '*.png'
+      register: frames
+
+    - name: Render Frame
+      tags: render
+      diademiemi.bad_apple.render_frame:
+        input_file: "{{ item }}"
+      register: result
+      loop: "{{ frames.files | map(attribute='path') | list }}"
+
+    - name: Debug
+      tags: render
+      ansible.builtin.debug:
+        msg: "{{ result.results }}"
+
+    - name: Show frame
+      tags: render
+      ansible.builtin.debug:
+        msg: "{{ item }}"
+      loop: "{{ result.results | map(attribute='frame') | list }}"
+      loop_control:
+        pause: 0.0466
+...
