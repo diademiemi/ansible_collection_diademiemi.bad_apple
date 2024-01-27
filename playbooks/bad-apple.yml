@@ -57,5 +57,5 @@
         msg: "{{ item }}"
       loop: "{{ result.results | map(attribute='frame') | list }}"
       loop_control:
+        label: frame
         pause: 0.0466
-...
