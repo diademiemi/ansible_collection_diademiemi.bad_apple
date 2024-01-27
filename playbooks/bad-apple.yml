@@ -57,5 +57,6 @@
         msg: "{{ item }}"
       loop: "{{ result.results | map(attribute='frame') | list }}"
       loop_control:
+        extended: true
+        label: "frame {{ ansible_loop.index }}/{{ ansible_loop.length }}"
         pause: 0.0466
-...
