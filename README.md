@@ -1,6 +1,9 @@
 Ansible Collection - diademiemi.bad_apple
 ========================================
-Documentation for the collection bad_apple.
+
+<img src="https://raw.githubusercontent.com/diademiemi/ansible_collection_diademiemi.bad_apple/main/thumbnail.png" width="50%">
+
+[YouTube Video](https://www.youtube.com/watch?v=Wb9iwFk3atA)
 
 This is an Ansible Collection which features:
 - A module `render_frame` which converts a frame of the Bad Apple video into an ASCII art representation.

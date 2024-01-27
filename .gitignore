@@ -151,4 +151,4 @@ dmypy.json
 .pyre/
 
 *.mp4
-*.png
+**/frames/*.png
