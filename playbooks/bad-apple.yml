@@ -15,7 +15,7 @@
 
     - name: Download Video
       tags: download
-      ansible.builtin.command: yt-dlp -f bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio https://www.youtube.com/watch?v=FtutLA63Cp8 -o bad_apple.mp4
+      ansible.builtin.command: yt-dlp -f worstvideo[ext=mp4] https://www.youtube.com/watch?v=FtutLA63Cp8 -o bad_apple.mp4
       args:
         creates: bad_apple.mp4
 
